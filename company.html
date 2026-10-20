@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- サンプル公開中は検索エンジンに載せない。本番公開時にこの行を消す -->
+    <meta name="robots" content="noindex, nofollow">
+    <title>地元で働こう！ - くれよん特設サイト</title>
+    <!-- Google Fonts: Noto Sans JP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/3.4.5"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            orange: '#F97316', // 温かみのあるオレンジ
+                            yellow: '#FEF08A', // 優しいイエロー
+                            teal: '#0D9488',   // アクセントの青緑
+                            light: '#FFFBEB'   // 背景用クリーム色
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        [x-cloak] { display: none !important; }
+        .table-th { background-color: #F0FDFA; color: #0F766E; }
+        .qr-box img, .qr-box canvas { width: 100%; height: 100%; }
+    </style>
+    <!-- 掲載企業データ（一覧・詳細ページ共通） -->
+    <script src="data/companies.js"></script>
+    <!-- QRコード生成 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        // URL の ?id=番号 から表示する企業を決める
+        function detailPage() {
+            const id = Number(new URLSearchParams(location.search).get('id'));
+            const c = (window.COMPANIES || []).find(x => x.id === id) || null;
+            return {
+                c,
+                // ポイント1〜3の色（オレンジ・青緑・黄）
+                pointStyles: [
+                    { card: 'border-orange-100', badge: 'bg-orange-100 text-brand-orange', line: 'border-brand-orange' },
+                    { card: 'border-teal-100',   badge: 'bg-teal-100 text-brand-teal',     line: 'border-brand-teal' },
+                    { card: 'border-yellow-200', badge: 'bg-yellow-100 text-yellow-600',   line: 'border-yellow-400' }
+                ],
+                init() {
+                    if (!c) return;
+                    document.title = c.companyName + ' - 地元で働こう！ - くれよん特設サイト';
+                    this.$nextTick(() => {
+                        new QRCode(this.$refs.qr, { text: c.applyUrl, width: 128, height: 128, correctLevel: QRCode.CorrectLevel.M });
+                    });
+                }
+            };
+        }
+    </script>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body class="bg-brand-light text-gray-800 antialiased">
+
+    <!-- サンプル表示（本番公開時に消す） -->
+    <div class="bg-gray-900 text-white text-center text-xs py-2 px-4">
+        ※このページはデザインのサンプルです。掲載している企業・人物・求人内容はすべて架空のものです。
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="index.html" class="text-brand-teal text-sm font-bold flex items-center hover:opacity-70 transition">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                一覧へ戻る
+            </a>
+            <div class="text-xs md:text-sm font-bold text-gray-500 hidden md:block">
+                地元で働こう！この街で「やりたい」を発見！
+            </div>
+        </div>
+    </header>
+
+    <main x-data="detailPage()" class="max-w-4xl mx-auto px-4 py-8 md:py-12">
+
+        <!-- 企業が見つからないとき -->
+        <template x-if="!c">
+            <section class="bg-white rounded-2xl shadow-sm p-10 text-center">
+                <p class="text-gray-700 font-bold mb-4">お探しのページが見つかりませんでした。</p>
+                <a href="index.html" class="inline-block bg-brand-orange text-white font-bold px-6 py-3 rounded-full">一覧へ戻る</a>
+            </section>
+        </template>
+
+        <template x-if="c">
+            <div>
+                <!-- Hero Section -->
+                <section class="bg-white rounded-3xl shadow-md overflow-hidden mb-12">
+                    <div class="h-72 md:h-96 relative">
+                        <img :src="c.hero || c.thumb" :alt="c.companyName" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+
+                        <!-- タイトル・キャッチコピー (左下)。スタッフ枠と被らないよう右側に余白 -->
+                        <div class="absolute bottom-0 left-0 w-full p-6 md:p-10 text-white pr-32 md:pr-56">
+                            <span class="inline-block bg-brand-orange text-white text-xs font-bold px-3 py-1 rounded-full mb-3 shadow-sm" x-text="c.category"></span>
+                            <h1 class="text-2xl md:text-5xl font-black mb-2 tracking-tight drop-shadow-md leading-tight" x-text="c.companyName"></h1>
+                            <p class="text-sm md:text-xl font-medium drop-shadow-md" x-text="c.catchphrase"></p>
+                        </div>
+
+                        <!-- スタッフ紹介枠 (右下) -->
+                        <div class="absolute bottom-4 right-4 md:bottom-8 md:right-8 flex flex-col items-center z-10">
+                            <img :src="c.staffThumb" :alt="c.role + ' ' + c.staffName" class="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-xl">
+                            <div class="bg-white rounded-full px-4 py-1.5 shadow-md flex items-baseline gap-1.5 -mt-4 border border-gray-100">
+                                <span class="text-[10px] md:text-xs text-brand-teal font-bold whitespace-nowrap" x-text="c.role"></span>
+                                <span class="text-xs md:text-sm font-black text-gray-900 whitespace-nowrap" x-text="c.staffName"></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Intro Text Section（約100文字・一覧カードと共通） -->
+                <section class="mb-12 max-w-3xl mx-auto text-center px-2">
+                    <p class="text-gray-700 leading-relaxed text-base md:text-lg font-medium" x-text="c.description"></p>
+                </section>
+
+                <!-- 3 Points Section -->
+                <section class="mb-16">
+                    <h2 class="text-2xl md:text-3xl font-black text-center mb-8 relative inline-block left-1/2 -translate-x-1/2">
+                        <span class="relative z-10">ここがポイント！</span>
+                        <span class="absolute bottom-1 left-0 w-full h-3 bg-brand-yellow -z-10 rounded-sm"></span>
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <template x-for="(p, i) in c.points" :key="i">
+                            <div class="bg-white rounded-2xl p-6 shadow-sm border flex flex-col items-center text-center" :class="pointStyles[i % 3].card">
+                                <div class="w-16 h-16 rounded-full flex items-center justify-center mb-4" :class="pointStyles[i % 3].badge">
+                                    <span class="text-2xl font-black" x-text="i + 1"></span>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-3 border-b-2 pb-2 inline-block" :class="pointStyles[i % 3].line" x-text="p.title"></h3>
+                                <p class="text-sm text-gray-600 leading-relaxed" x-text="p.text"></p>
+                            </div>
+                        </template>
+                    </div>
+                </section>
+
+                <!-- Details Grid Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
+
+                    <!-- Company Overview -->
+                    <section>
+                        <h2 class="text-xl font-bold mb-4 flex items-center text-brand-teal">
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                            会社概要
+                        </h2>
+                        <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
+                            <table class="w-full text-sm text-left">
+                                <tbody>
+                                    <template x-for="(row, i) in c.overview" :key="i">
+                                        <tr class="border-b border-gray-100 last:border-b-0">
+                                            <th class="py-4 px-4 font-medium table-th w-1/3 align-top" x-text="row[0]"></th>
+                                            <td class="py-4 px-4 leading-relaxed whitespace-pre-line" x-text="row[1]"></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- Recruitment Overview -->
+                    <section>
+                        <h2 class="text-xl font-bold mb-4 flex items-center text-brand-orange">
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            募集概要
+                        </h2>
+                        <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
+                            <table class="w-full text-sm text-left">
+                                <tbody>
+                                    <template x-for="(row, i) in c.recruit" :key="i">
+                                        <tr class="border-b border-gray-100 last:border-b-0">
+                                            <th class="py-4 px-4 font-medium bg-orange-50 text-orange-800 w-1/3 align-top" x-text="row[0]"></th>
+                                            <td class="py-4 px-4 leading-relaxed whitespace-pre-line" :class="row[0] === '給与' ? 'text-red-600 font-bold' : ''" x-text="row[1]"></td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- Application Section (CTA) - Compact -->
+                <section class="bg-orange-50 border-2 border-brand-orange rounded-xl p-4 md:py-5 md:px-6 shadow-sm mb-8">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
+                        <div class="text-center md:text-left">
+                            <h2 class="text-lg md:text-xl font-black text-gray-900 mb-1">ご応募お待ちしております！</h2>
+                            <p class="text-gray-600 text-xs md:text-sm">面接日や勤務開始日はお気軽にご相談ください。</p>
+                        </div>
+
+                        <div class="flex items-center gap-3 md:gap-5 w-full md:w-auto">
+                            <a :href="c.applyUrl" target="_blank" rel="noopener" class="flex-1 md:w-56 bg-brand-orange hover:bg-orange-600 text-white text-center font-bold text-sm md:text-base py-3 px-4 rounded-full shadow-sm transition-transform hover:scale-105 whitespace-nowrap">
+                                WEBから応募する
+                            </a>
+                            <div class="w-px h-10 bg-orange-200 hidden md:block"></div>
+                            <div class="flex flex-col items-center shrink-0">
+                                <div x-ref="qr" class="qr-box w-16 h-16 bg-white p-1 border border-gray-200 rounded-md" role="img" aria-label="応募用QRコード"></div>
+                                <span class="text-[9px] text-gray-500 mt-1 font-bold">スマホで読込</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </template>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <p class="text-sm text-gray-400">© 2026 情報誌くれよん. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

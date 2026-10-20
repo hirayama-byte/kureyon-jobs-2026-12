@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- サンプル公開中は検索エンジンに載せない。本番公開時にこの行を消す -->
+    <meta name="robots" content="noindex, nofollow">
+    <title>地元で働こう！この街で「やりたい」を発見！ - くれよん特設サイト</title>
+    <meta name="description" content="情報誌くれよん編集部がおすすめする、一宮の企業10社の求人特集。">
+    <!-- Google Fonts: Noto Sans JP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/3.4.5"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            orange: '#F97316',
+                            teal: '#0D9488',
+                            light: '#F0F8FF'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- 掲載企業データ（一覧・詳細ページ共通） -->
+    <script src="data/companies.js"></script>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body class="bg-brand-light text-gray-800 antialiased min-h-screen">
+
+    <!-- サンプル表示（本番公開時に消す） -->
+    <div class="bg-gray-900 text-white text-center text-xs py-2 px-4">
+        ※このページはデザインのサンプルです。掲載している企業・人物・求人内容はすべて架空のものです。
+    </div>
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm border-b border-gray-200 py-10 mb-12 relative overflow-hidden">
+        <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
+            <span class="inline-block bg-brand-orange text-white font-bold px-4 py-1.5 rounded-full text-xs md:text-sm mb-4 tracking-wider shadow-sm">
+                情報誌くれよん 12月号連動企画
+            </span>
+            <h1 class="text-[26px] md:text-4xl font-black text-gray-900 leading-tight mb-4 tracking-tight">
+                <span class="inline-block">地元で働こう！</span><span class="inline-block">この街で<span class="text-brand-orange">「やりたい」</span>を発見！</span>
+            </h1>
+            <p class="text-base md:text-lg text-gray-600 font-medium">
+                くれよん編集部が自信をもっておすすめする、一宮の優良企業10社をご紹介！
+            </p>
+        </div>
+    </header>
+
+    <!-- Main Content Container (Alpine.js Scope) -->
+    <main x-data="{ companies: window.COMPANIES }" class="max-w-5xl mx-auto px-4 pb-20">
+
+        <!-- Grid Layout: 1 Col on Mobile, 2 Cols on MD -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+
+            <template x-for="company in companies" :key="company.id">
+                <article class="bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden border border-gray-100 group flex flex-col">
+                    <a :href="'company.html?id=' + company.id" class="flex flex-col h-full relative outline-none focus:ring-4 focus:ring-brand-orange/30 rounded-2xl">
+
+                        <!-- Thumbnail Image Area -->
+                        <div class="h-60 md:h-64 relative overflow-hidden bg-gray-200">
+                            <img :src="company.thumb" :alt="company.companyName" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+
+                            <!-- Dark Gradient Overlay for Text Readability -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+
+                            <!-- Bottom Left: Company Name & Category -->
+                            <div class="absolute bottom-4 left-4 pr-28 md:pr-32 z-10">
+                                <span class="inline-block bg-brand-teal text-white text-[10px] font-bold px-2 py-0.5 rounded-sm mb-1.5 shadow-sm" x-text="company.category"></span>
+                                <h3 class="text-white text-lg md:text-xl font-black leading-tight drop-shadow-md" x-text="company.companyName"></h3>
+                            </div>
+
+                            <!-- Bottom Right: Staff Photo -->
+                            <div class="absolute bottom-3 right-4 flex flex-col items-center z-10 group-hover:scale-105 transition-transform duration-300">
+                                <img :src="company.staffThumb" :alt="company.role + ' ' + company.staffName" loading="lazy" class="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-4 border-white shadow-lg">
+                                <div class="bg-white rounded-full px-3 py-1 shadow-md flex items-baseline gap-1 -mt-3 border border-gray-100 relative z-20">
+                                    <span class="text-[9px] md:text-[10px] text-brand-orange font-bold whitespace-nowrap" x-text="company.role"></span>
+                                    <span class="text-[11px] md:text-[12px] font-black text-gray-900 whitespace-nowrap" x-text="company.staffName"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Body Area -->
+                        <div class="flex flex-col flex-grow p-6">
+                            <h2 class="text-[16px] md:text-[18px] font-black text-gray-900 leading-snug mb-4 group-hover:text-brand-orange transition-colors" x-text="company.catchphrase"></h2>
+                            <div class="flex-grow"></div>
+                            <hr class="border-t border-dashed border-gray-300 mb-4" />
+                            <p class="text-[13px] md:text-[14px] text-gray-600 leading-relaxed font-medium" x-text="company.description"></p>
+                        </div>
+                    </a>
+                </article>
+            </template>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <p class="text-sm text-gray-400">© 2026 情報誌くれよん. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
