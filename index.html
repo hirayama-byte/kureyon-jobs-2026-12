@@ -78,7 +78,10 @@
                             <!-- Bottom Left: Company Name & Category -->
                             <div class="absolute bottom-4 left-4 pr-28 md:pr-32 z-10">
                                 <span class="inline-block bg-brand-teal text-white text-[10px] font-bold px-2 py-0.5 rounded-sm mb-1.5 shadow-sm" x-text="company.category"></span>
-                                <h3 class="text-white text-lg md:text-xl font-black leading-tight drop-shadow-md" x-text="company.companyName"></h3>
+                                <h3 class="text-white text-lg md:text-xl font-black leading-tight drop-shadow-md">
+                                    <!-- 名前は空白の位置でだけ改行する（単語の途中で切らない） -->
+                                    <template x-for="(w, i) in company.companyName.split(' ')" :key="i"><span><span class="inline-block max-w-full" x-text="w"></span><span x-show="i < company.companyName.split(' ').length - 1"> </span></span></template>
+                                </h3>
                             </div>
 
                             <!-- Bottom Right: Staff Photo -->

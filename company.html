@@ -109,7 +109,10 @@
                         <!-- タイトル・キャッチコピー (左下)。スタッフ枠と被らないよう右側に余白 -->
                         <div class="absolute bottom-0 left-0 w-full p-6 md:p-10 text-white pr-32 md:pr-56">
                             <span class="inline-block bg-brand-orange text-white text-xs font-bold px-3 py-1 rounded-full mb-3 shadow-sm" x-text="c.category"></span>
-                            <h1 class="text-2xl md:text-5xl font-black mb-2 tracking-tight drop-shadow-md leading-tight" x-text="c.companyName"></h1>
+                            <h1 class="text-2xl md:text-5xl font-black mb-2 tracking-tight drop-shadow-md leading-tight">
+                                <!-- 名前は空白の位置でだけ改行する（単語の途中で切らない） -->
+                                <template x-for="(w, i) in c.companyName.split(' ')" :key="i"><span><span class="inline-block max-w-full" x-text="w"></span><span x-show="i < c.companyName.split(' ').length - 1"> </span></span></template>
+                            </h1>
                             <p class="text-sm md:text-xl font-medium drop-shadow-md" x-text="c.catchphrase"></p>
                         </div>
 
