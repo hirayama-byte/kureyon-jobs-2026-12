@@ -54,8 +54,10 @@
                     { card: 'border-yellow-200', badge: 'bg-yellow-100 text-yellow-600',   line: 'border-yellow-400' }
                 ],
                 init() {
-                    if (!c || !c.applyUrl) { if (c) document.title = c.companyName + ' - 地元で働こう！ - くれよん特設サイト'; return; }
+                    if (!c) return;
                     document.title = c.companyName + ' - 地元で働こう！ - くれよん特設サイト';
+                    // 先方支給のQR画像があればそれを使い、無ければ応募先URLから作る
+                    if (!c.applyUrl || c.qrImage) return;
                     this.$nextTick(() => {
                         new QRCode(this.$refs.qr, { text: c.applyUrl, width: 128, height: 128, correctLevel: QRCode.CorrectLevel.M });
                     });
@@ -201,12 +203,21 @@
                         </div>
 
                         <div x-show="c.applyUrl" class="flex items-center gap-3 md:gap-5 w-full md:w-auto">
-                            <a :href="c.applyUrl" target="_blank" rel="noopener" class="flex-1 md:w-56 bg-brand-orange hover:bg-orange-600 text-white text-center font-bold text-sm md:text-base py-3 px-4 rounded-full shadow-sm transition-transform hover:scale-105 whitespace-nowrap">
-                                WEBから応募する
-                            </a>
+                            <div class="flex-1 md:w-56 flex flex-col items-center">
+                                <a :href="c.applyUrl" target="_blank" rel="noopener" class="w-full bg-brand-orange hover:bg-orange-600 text-white text-center font-bold text-sm md:text-base py-3 px-4 rounded-full shadow-sm transition-transform hover:scale-105 whitespace-nowrap">
+                                    WEBから応募する
+                                </a>
+                                <!-- 電話（スマホではタップで発信） -->
+                                <a x-show="c.tel" :href="'tel:' + (c.tel || '').replace(/-/g, '')" class="mt-1.5 text-[11px] md:text-xs text-gray-700 font-bold hover:text-brand-orange whitespace-nowrap">
+                                    TEL：<span x-text="c.tel"></span><span x-show="c.telNote" x-text="'（' + c.telNote + '）'"></span>
+                                </a>
+                            </div>
                             <div class="w-px h-10 bg-orange-200 hidden md:block"></div>
                             <div class="flex flex-col items-center shrink-0">
-                                <div x-ref="qr" class="qr-box w-16 h-16 bg-white p-1 border border-gray-200 rounded-md" role="img" aria-label="応募用QRコード"></div>
+                                <template x-if="c.qrImage">
+                                    <img :src="c.qrImage" alt="応募用QRコード" class="w-16 h-16 bg-white p-1 border border-gray-200 rounded-md" style="image-rendering: pixelated;">
+                                </template>
+                                <div x-show="!c.qrImage" x-ref="qr" class="qr-box w-16 h-16 bg-white p-1 border border-gray-200 rounded-md" role="img" aria-label="応募用QRコード"></div>
                                 <span class="text-[9px] text-gray-500 mt-1 font-bold">スマホで読込</span>
                             </div>
                         </div>

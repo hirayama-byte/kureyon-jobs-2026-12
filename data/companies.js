@@ -14,6 +14,8 @@
 //   overview    … 会社概要（表）
 //   recruit     … 募集概要（表）
 //   applyUrl    … 応募先URL（WEB応募ボタンとQRコードの両方に使う。空ならボタンとQRを出さない）
+//   qrImage     … 先方支給のQR画像（省略時は applyUrl からQRを自動で作る）
+//   tel / telNote … WEB応募ボタンの下に出す電話番号と補足（例: 担当：小川）
 //   real        … true なら本番の掲載企業（詳細ページのサンプル表示を出さない）
 
 window.COMPANIES = [
@@ -54,7 +56,7 @@ window.COMPANIES = [
     companyName: '共生ホーム あじさい',
     thumb: 'images/ajisai-building.jpg',
     staffThumb: 'images/ajisai-staff.jpg',
-    role: '看護師・介護士',
+    role: '代表取締役社長',
     staffName: '',
     catchphrase: '令和9年5月新規オープン！一人ひとりの人生に寄り添う施設',
     description: '令和9年5月に新規オープンする医療特化型の施設です。開設準備から参加し、経験やアイデアを施設づくりに活かせます。24時間365日看護師を配置しており、安心してケアに取り組める環境が整っています。',
@@ -70,12 +72,15 @@ window.COMPANIES = [
     ],
     recruit: [
       ['募集職種', '看護師・介護士（正社員）'],
-      ['給与', '基本給 150,000円〜250,000円\n※手当別途支給'],
+      ['給与', '看護師 250,000円〜\n介護士 150,000円〜'],
       ['勤務時間', '日勤 8:30〜17:30\n夜勤 16:00〜翌9:00'],
       ['休日・休暇', 'シフト制（年間休日等は規定に準ずる）'],
       ['応募資格', '未経験歓迎、資格不問\n※初任者研修の費用補助あり']
     ],
-    applyUrl: '' // 応募先URL 未定（空のあいだはWEB応募ボタンとQRを出さない）
+    applyUrl: 'https://nikkenhomes.co.jp/chumon/recruit/',
+    qrImage: 'images/ajisai-qr.png', // 先方支給のQR
+    tel: '080-9276-7943',
+    telNote: '担当：小川'
   },
   {
     id: 3,
