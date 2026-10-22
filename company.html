@@ -54,7 +54,7 @@
                     { card: 'border-yellow-200', badge: 'bg-yellow-100 text-yellow-600',   line: 'border-yellow-400' }
                 ],
                 init() {
-                    if (!c) return;
+                    if (!c || !c.applyUrl) { if (c) document.title = c.companyName + ' - 地元で働こう！ - くれよん特設サイト'; return; }
                     document.title = c.companyName + ' - 地元で働こう！ - くれよん特設サイト';
                     this.$nextTick(() => {
                         new QRCode(this.$refs.qr, { text: c.applyUrl, width: 128, height: 128, correctLevel: QRCode.CorrectLevel.M });
@@ -66,10 +66,10 @@
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 </head>
-<body class="bg-brand-light text-gray-800 antialiased">
+<body x-data="detailPage()" class="bg-brand-light text-gray-800 antialiased">
 
-    <!-- サンプル表示（本番公開時に消す） -->
-    <div class="bg-gray-900 text-white text-center text-xs py-2 px-4">
+    <!-- サンプル表示（本番の掲載企業 real: true では出さない） -->
+    <div x-show="!c || !c.real" class="bg-gray-900 text-white text-center text-xs py-2 px-4">
         ※このページはデザインのサンプルです。掲載している企業・人物・求人内容はすべて架空のものです。
     </div>
 
@@ -86,7 +86,7 @@
         </div>
     </header>
 
-    <main x-data="detailPage()" class="max-w-4xl mx-auto px-4 py-8 md:py-12">
+    <main class="max-w-4xl mx-auto px-4 py-8 md:py-12">
 
         <!-- 企業が見つからないとき -->
         <template x-if="!c">
@@ -113,10 +113,10 @@
 
                         <!-- スタッフ紹介枠 (右下) -->
                         <div class="absolute bottom-4 right-4 md:bottom-8 md:right-8 flex flex-col items-center z-10">
-                            <img :src="c.staffThumb" :alt="c.role + ' ' + c.staffName" class="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-xl">
+                            <img :src="c.staffThumb" :alt="(c.role + ' ' + c.staffName).trim()" class="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-xl">
                             <div class="bg-white rounded-full px-4 py-1.5 shadow-md flex items-baseline gap-1.5 -mt-4 border border-gray-100">
                                 <span class="text-[10px] md:text-xs text-brand-teal font-bold whitespace-nowrap" x-text="c.role"></span>
-                                <span class="text-xs md:text-sm font-black text-gray-900 whitespace-nowrap" x-text="c.staffName"></span>
+                                <span class="text-xs md:text-sm font-black text-gray-900 whitespace-nowrap" x-show="c.staffName" x-text="c.staffName"></span>
                             </div>
                         </div>
                     </div>
@@ -197,10 +197,10 @@
                     <div class="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
                         <div class="text-center md:text-left">
                             <h2 class="text-lg md:text-xl font-black text-gray-900 mb-1">ご応募お待ちしております！</h2>
-                            <p class="text-gray-600 text-xs md:text-sm">面接日や勤務開始日はお気軽にご相談ください。</p>
+                            <p class="text-gray-600 text-xs md:text-sm" x-text="c.applyUrl ? '面接日や勤務開始日はお気軽にご相談ください。' : '応募方法は近日公開予定です。'"></p>
                         </div>
 
-                        <div class="flex items-center gap-3 md:gap-5 w-full md:w-auto">
+                        <div x-show="c.applyUrl" class="flex items-center gap-3 md:gap-5 w-full md:w-auto">
                             <a :href="c.applyUrl" target="_blank" rel="noopener" class="flex-1 md:w-56 bg-brand-orange hover:bg-orange-600 text-white text-center font-bold text-sm md:text-base py-3 px-4 rounded-full shadow-sm transition-transform hover:scale-105 whitespace-nowrap">
                                 WEBから応募する
                             </a>

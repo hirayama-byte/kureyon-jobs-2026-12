@@ -40,7 +40,7 @@
 
     <!-- サンプル表示（本番公開時に消す） -->
     <div class="bg-gray-900 text-white text-center text-xs py-2 px-4">
-        ※このページはデザインのサンプルです。掲載している企業・人物・求人内容はすべて架空のものです。
+        ※掲載企業の一部はデザインのサンプルです。サンプルの企業・人物・求人内容は架空のものです。
     </div>
 
     <!-- Header Section -->
@@ -83,10 +83,10 @@
 
                             <!-- Bottom Right: Staff Photo -->
                             <div class="absolute bottom-3 right-4 flex flex-col items-center z-10 group-hover:scale-105 transition-transform duration-300">
-                                <img :src="company.staffThumb" :alt="company.role + ' ' + company.staffName" loading="lazy" class="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-4 border-white shadow-lg">
+                                <img :src="company.staffThumb" :alt="(company.role + ' ' + company.staffName).trim()" loading="lazy" class="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-4 border-white shadow-lg">
                                 <div class="bg-white rounded-full px-3 py-1 shadow-md flex items-baseline gap-1 -mt-3 border border-gray-100 relative z-20">
                                     <span class="text-[9px] md:text-[10px] text-brand-orange font-bold whitespace-nowrap" x-text="company.role"></span>
-                                    <span class="text-[11px] md:text-[12px] font-black text-gray-900 whitespace-nowrap" x-text="company.staffName"></span>
+                                    <span class="text-[11px] md:text-[12px] font-black text-gray-900 whitespace-nowrap" x-show="company.staffName" x-text="company.staffName"></span>
                                 </div>
                             </div>
                         </div>
