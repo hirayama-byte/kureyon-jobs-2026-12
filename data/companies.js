@@ -118,8 +118,8 @@ window.COMPANIES = [
     companyName: 'SIEVE HAIR 一宮駅前店',
     thumb: 'images/sieve-main.jpg',
     staffThumb: 'images/sieve-staff.jpg',
-    role: 'スタイリスト・アシスタント',
-    staffName: '',
+    role: 'オーナー',
+    staffName: '松本',
     catchphrase: 'あなたらしく輝ける毎日を！ずっと働き続けられる美容室',
     description: 'SIEVE HAIRの理念は「人生を美しく彩り豊かにすること」。お客様だけでなく、働くスタッフの人生も彩り豊かであってほしいと考えています。仕事もプライベートも未来もワクワクできる、ずっと働き続けられる環境をご用意しています。',
     points: [
