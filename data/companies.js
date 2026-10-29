@@ -110,7 +110,8 @@ window.COMPANIES = [
       ['休日', '① 月間6〜8日 ※会社カレンダーによる\n② 日曜・月2回程度土曜'],
       ['資格', '① 中型自動車免許（8t限定可・AT限定不可）\n② 中型自動車免許（8t限定可・AT限定不可）、リフト免許（リフト免許がない人はご相談ください）']
     ],
-    applyUrl: '' // 応募先URLは未支給（ボタンとQRは出さない。届いたらここに入れる）
+    applyUrl: 'https://arwrk.net/recruit/esh4697zinokx7v/',
+    qrImage: 'images/bishu-qr.png' // 仮の枠（先方のQR画像が届いたら差し替える。この行を消すと applyUrl から自動で作る）
   },
   {
     id: 4,
