@@ -56,8 +56,8 @@ window.COMPANIES = [
     companyName: '医療特化型 共生ホーム あじさい',
     thumb: 'images/ajisai-building.jpg',
     staffThumb: 'images/ajisai-staff.jpg',
-    role: '代表取締役社長',
-    staffName: '',
+    role: '代表取締役',
+    staffName: '黒坂',
     catchphrase: '令和9年5月新規オープン！一人ひとりの人生に寄り添う施設',
     description: '令和9年5月に新規オープンする医療特化型の施設です。開設準備から参加し、経験やアイデアを施設づくりに活かせます。24時間365日看護師を配置しており、安心してケアに取り組める環境が整っています。オープニングスタッフ募集開始いたします。',
     points: [
@@ -90,7 +90,7 @@ window.COMPANIES = [
     thumb: 'images/bishu-main.jpg',
     staffThumb: 'images/bishu-staff.jpg',
     role: '代表取締役',
-    staffName: '',
+    staffName: '藤原',
     catchphrase: '正社員大募集！残業なしでプライベートも充実！入社時期の相談も歓迎です◎',
     description: '中型自動車免許（8t限定可）があればスタートできる、尾張エリア近辺の固定ルート配送。再配達は一切ありません！決まったルートなので道を覚えればラクラク。自分のペースでモクモクと健康的に働きたい方にぴったりです。',
     points: [
