@@ -76,7 +76,7 @@
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
                             <!-- Bottom Left: Company Name & Category -->
-                            <div class="absolute bottom-4 left-4 pr-28 md:pr-32 z-10">
+                            <div class="absolute bottom-4 left-4 pr-32 md:pr-36 z-10">
                                 <span class="inline-block bg-brand-teal text-white text-[10px] font-bold px-2 py-0.5 rounded-sm mb-1.5 shadow-sm" x-text="company.category"></span>
                                 <h3 class="text-white text-lg md:text-xl font-black leading-tight drop-shadow-md">
                                     <!-- 名前は空白の位置でだけ改行する（単語の途中で切らない） -->
@@ -87,7 +87,9 @@
                             <!-- Bottom Right: Staff Photo -->
                             <div class="absolute bottom-3 right-4 flex flex-col items-center z-10 group-hover:scale-105 transition-transform duration-300">
                                 <img :src="company.staffThumb" :alt="(company.role + ' ' + company.staffName).trim()" loading="lazy" class="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-4 border-white shadow-lg">
-                                <div class="bg-white rounded-full px-3 py-1 shadow-md flex items-baseline gap-1 -mt-3 border border-gray-100 relative z-20">
+                                <!-- 肩書が長いとき（6文字以上）は肩書と名前を2段にして、会社名に被らないようにする -->
+                                <div class="bg-white py-1 shadow-md flex -mt-3 border border-gray-100 relative z-20"
+                                     :class="(company.role || '').length > 5 ? 'flex-col items-center px-2.5 rounded-2xl leading-tight' : 'items-baseline gap-1 px-3 rounded-full'">
                                     <span class="text-[9px] md:text-[10px] text-brand-orange font-bold whitespace-nowrap" x-text="company.role"></span>
                                     <span class="text-[11px] md:text-[12px] font-black text-gray-900 whitespace-nowrap" x-show="company.staffName" x-text="company.staffName"></span>
                                 </div>
