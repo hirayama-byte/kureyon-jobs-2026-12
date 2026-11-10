@@ -43,6 +43,8 @@
   var config = {};
   if (company) {
     config.page_title = company.companyName + ' - この街で働くという選択。 - くれよん特設サイト';
+    document.title = config.page_title; // 計測が読み込まれる前にページ名を会社名にしておく
+
     config.company_name = company.companyName;
     config.company_id = String(company.id);
   }
