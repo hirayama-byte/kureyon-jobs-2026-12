@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- サンプル公開中は検索エンジンに載せない。本番公開時にこの行を消す -->
     <meta name="robots" content="noindex, nofollow">
-    <title>地元で働こう！ - くれよん特設サイト</title>
+    <title>この街で働くという選択。 - くれよん特設サイト</title>
     <!-- Google Fonts: Noto Sans JP -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,7 +55,7 @@
                 ],
                 init() {
                     if (!c) return;
-                    document.title = c.companyName + ' - 地元で働こう！ - くれよん特設サイト';
+                    document.title = c.companyName + ' - この街で働くという選択。 - くれよん特設サイト';
                     // 先方支給のQR画像があればそれを使い、無ければ応募先URLから作る
                     if (!c.applyUrl || c.qrImage) return;
                     this.$nextTick(() => {
@@ -84,7 +84,7 @@
                 一覧へ戻る
             </a>
             <div class="text-xs md:text-sm font-bold text-gray-500 hidden md:block">
-                地元で働こう！この街で「やりたい」を発見！
+                この街で働くという選択。～広がる笑顔、繋がる輪～
             </div>
         </div>
     </header>
