@@ -34,6 +34,7 @@
     <!-- 掲載企業データ（一覧・詳細ページ共通） -->
     <script src="data/companies.js"></script>
     <!-- Alpine.js -->
+    <script src="name-fit.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 </head>
 <body class="bg-brand-light text-gray-800 antialiased min-h-screen">
@@ -76,11 +77,11 @@
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
                             <!-- Bottom Left: Company Name & Category -->
-                            <div class="absolute bottom-4 left-4 pr-32 md:pr-36 z-10">
+                            <div class="absolute bottom-4 left-4 right-4 pr-28 md:pr-32 z-10">
                                 <span class="inline-block bg-brand-teal text-white text-[10px] font-bold px-2 py-0.5 rounded-sm mb-1.5 shadow-sm" x-text="company.category"></span>
                                 <h3 class="text-white text-lg md:text-xl font-black leading-tight drop-shadow-md">
                                     <!-- 名前は空白の位置でだけ改行する（単語の途中で切らない） -->
-                                    <template x-for="(w, i) in company.companyName.split(' ')" :key="i"><span><span class="inline-block max-w-full" x-text="w"></span><span x-show="i < company.companyName.split(' ').length - 1"> </span></span></template>
+                                    <template x-for="(w, i) in splitName(company.companyName).main.split(' ')" :key="i"><span><span class="inline-block max-w-full" x-text="w"></span><span x-show="i < splitName(company.companyName).main.split(' ').length - 1"> </span></span></template><span x-show="splitName(company.companyName).sub" data-fit-line class="block whitespace-nowrap overflow-hidden text-sm md:text-base mt-0.5" x-text="splitName(company.companyName).sub" x-init="$nextTick(() => { fitLine($el); document.fonts && document.fonts.ready.then(() => fitLine($el)); })"></span>
                                 </h3>
                             </div>
 

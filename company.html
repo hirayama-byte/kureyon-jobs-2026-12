@@ -66,6 +66,7 @@
         }
     </script>
     <!-- Alpine.js -->
+    <script src="name-fit.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 </head>
 <body x-data="detailPage()" class="bg-brand-light text-gray-800 antialiased">
@@ -111,7 +112,7 @@
                             <span class="inline-block bg-brand-orange text-white text-xs font-bold px-3 py-1 rounded-full mb-3 shadow-sm" x-text="c.category"></span>
                             <h1 class="text-2xl md:text-5xl font-black mb-2 tracking-tight drop-shadow-md leading-tight">
                                 <!-- 名前は空白の位置でだけ改行する（単語の途中で切らない） -->
-                                <template x-for="(w, i) in c.companyName.split(' ')" :key="i"><span><span class="inline-block max-w-full" x-text="w"></span><span x-show="i < c.companyName.split(' ').length - 1"> </span></span></template>
+                                <template x-for="(w, i) in splitName(c.companyName).main.split(' ')" :key="i"><span><span class="inline-block max-w-full" x-text="w"></span><span x-show="i < splitName(c.companyName).main.split(' ').length - 1"> </span></span></template><span x-show="splitName(c.companyName).sub" data-fit-line class="block whitespace-nowrap overflow-hidden text-lg md:text-3xl mt-1" x-text="splitName(c.companyName).sub" x-init="$nextTick(() => { fitLine($el); document.fonts && document.fonts.ready.then(() => fitLine($el)); })"></span>
                             </h1>
                             <p class="text-sm md:text-xl font-medium drop-shadow-md" x-text="c.catchphrase"></p>
                         </div>
