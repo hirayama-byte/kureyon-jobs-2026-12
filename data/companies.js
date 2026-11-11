@@ -15,6 +15,7 @@
 //   recruit     … 募集概要（表）
 //   applyUrl    … 応募先URL（WEB応募ボタンとQRコードの両方に使う。空ならボタンとQRを出さない）
 //   qrImage     … 先方支給のQR画像（省略時は applyUrl からQRを自動で作る）
+//   noQr        … true ならQRを出さない（応募ボタン・電話だけ）
 //   tel / telNote … WEB応募ボタンの下に出す電話番号と補足（例: 担当：小川）
 //   real        … true なら本番の掲載企業（詳細ページのサンプル表示を出さない）
 
@@ -116,7 +117,8 @@ window.COMPANIES = [
       ['資格', '① 中型自動車免許（8t限定可・AT限定不可）\n② 中型自動車免許（8t限定可・AT限定不可）、リフト免許（リフト免許がない人はご相談ください）']
     ],
     applyUrl: 'https://arwrk.net/recruit/esh4697zinokx7v/',
-    qrImage: 'images/bishu-qr.png' // 仮の枠（先方のQR画像が届いたら差し替える。この行を消すと applyUrl から自動で作る）
+    qrImage: 'images/bishu-qr.png', // 仮の枠（先方のQR画像が届いたら差し替える。この行を消すと applyUrl から自動で作る）
+    noQr: true // 2026-11-11 オーナー依頼でQRを出さない（応募ボタンは残す）
   },
   {
     id: 4,

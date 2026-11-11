@@ -59,7 +59,7 @@
                     if (!c) return;
                     document.title = c.companyName + ' - この街で働くという選択。 - くれよん特設サイト';
                     // 先方支給のQR画像があればそれを使い、無ければ応募先URLから作る
-                    if (!c.applyUrl || c.qrImage) return;
+                    if (!c.applyUrl || c.qrImage || c.noQr) return;
                     this.$nextTick(() => {
                         new QRCode(this.$refs.qr, { text: c.applyUrl, width: 128, height: 128, correctLevel: QRCode.CorrectLevel.M });
                     });
@@ -220,8 +220,8 @@
                                     TEL：<span x-text="c.tel"></span><span x-show="c.telNote" x-text="'（' + c.telNote + '）'"></span>
                                 </a>
                             </div>
-                            <div class="w-px h-10 bg-orange-200 hidden md:block"></div>
-                            <div class="flex flex-col items-center shrink-0">
+                            <div x-show="!c.noQr" class="w-px h-10 bg-orange-200 hidden md:block"></div>
+                            <div x-show="!c.noQr" class="flex flex-col items-center shrink-0">
                                 <template x-if="c.qrImage">
                                     <img :src="c.qrImage" alt="応募用QRコード" class="w-16 h-16 bg-white p-1 border border-gray-200 rounded-md" style="image-rendering: pixelated;">
                                 </template>
