@@ -125,8 +125,8 @@
                             <!-- 肩書が長いとき（6文字以上）は肩書と名前を2段にして、キャッチコピーに被らないようにする -->
                             <div class="bg-white py-1.5 shadow-md flex -mt-4 border border-gray-100"
                                  :class="(c.role || '').length > 5 ? 'flex-col items-center px-2.5 rounded-2xl leading-tight' : 'items-baseline gap-1.5 px-4 rounded-full'">
-                                <span class="text-[10px] md:text-xs text-brand-teal font-bold whitespace-nowrap" x-text="c.role"></span>
-                                <span class="text-xs md:text-sm font-black text-gray-900 whitespace-nowrap" x-show="c.staffName" x-text="c.staffName"></span>
+                                <span class="text-[10px] md:text-xs text-brand-teal font-bold whitespace-nowrap" :style="(c.role || '').indexOf('\n') >= 0 ? 'white-space:pre-line;text-align:center' : ''" x-text="c.role"></span>
+                                <span class="text-xs md:text-sm font-black text-gray-900 whitespace-nowrap" :style="(c.staffName || '').indexOf('\n') >= 0 ? 'white-space:pre-line;text-align:center' : ''" x-show="c.staffName" x-text="c.staffName"></span>
                             </div>
                         </div>
                     </div>

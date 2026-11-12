@@ -88,8 +88,8 @@
                                 <!-- 肩書が長いとき（6文字以上）は肩書と名前を2段にして、会社名に被らないようにする -->
                                 <div class="bg-white py-1 shadow-md flex -mt-3 border border-gray-100 relative z-20"
                                      :class="(company.role || '').length > 5 ? 'flex-col items-center px-2.5 rounded-2xl leading-tight' : 'items-baseline gap-1 px-3 rounded-full'">
-                                    <span class="text-[9px] md:text-[10px] text-brand-orange font-bold whitespace-nowrap" x-text="company.role"></span>
-                                    <span class="text-[11px] md:text-[12px] font-black text-gray-900 whitespace-nowrap" x-show="company.staffName" x-text="company.staffName"></span>
+                                    <span class="text-[9px] md:text-[10px] text-brand-orange font-bold whitespace-nowrap" :style="(company.role || '').indexOf('\n') >= 0 ? 'white-space:pre-line;text-align:center' : ''" x-text="company.role"></span>
+                                    <span class="text-[11px] md:text-[12px] font-black text-gray-900 whitespace-nowrap" :style="(company.staffName || '').indexOf('\n') >= 0 ? 'white-space:pre-line;text-align:center' : ''" x-show="company.staffName" x-text="company.staffName"></span>
                                 </div>
                             </div>
                         </div>
