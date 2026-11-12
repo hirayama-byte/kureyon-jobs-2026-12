@@ -55,8 +55,13 @@
                     { card: 'border-teal-100',   badge: 'bg-teal-100 text-brand-teal',     line: 'border-brand-teal' },
                     { card: 'border-yellow-200', badge: 'bg-yellow-100 text-yellow-600',   line: 'border-yellow-400' }
                 ],
+                pinned: false, // 上の社名が画面から隠れたら、ヘッダーの下に社名・キャッチを固定して出す（2026-11-12）
                 init() {
                     if (!c) return;
+                    this.$nextTick(() => {
+                        const t = document.getElementById('titleBlock');
+                        if (t && 'IntersectionObserver' in window) new IntersectionObserver((es) => { const e = es[0]; this.pinned = !e.isIntersecting && e.boundingClientRect.top < 0; }, { rootMargin: '-64px 0px 0px 0px' }).observe(t);
+                    });
                     document.title = c.companyName + ' - この街で働くという選択。 - くれよん特設サイト';
                     // 先方支給のQR画像があればそれを使い、無ければ応募先URLから作る
                     if (!c.applyUrl || c.qrImage || c.noQr) return;
@@ -89,6 +94,16 @@
                 この街で働くという選択。～広がる笑顔、繋がる輪～
             </div>
         </div>
+        <!-- スクロールしても社名・キャッチを見せる（上の社名が隠れたときだけ出る） -->
+        <div x-show="c && pinned" x-cloak x-transition.opacity class="border-t border-gray-100 bg-white">
+            <div class="max-w-6xl mx-auto px-4 py-2 flex items-center gap-3">
+                <span class="shrink-0 bg-brand-orange text-white text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-full" x-text="c && c.category"></span>
+                <div class="min-w-0">
+                    <div class="text-sm md:text-base font-black text-gray-900 leading-snug line-clamp-2 md:truncate" x-text="c && c.companyName.replace(/ /g, ' ')"></div>
+                    <div class="text-[11px] md:text-xs text-gray-500 truncate" x-text="c && c.catchphrase"></div>
+                </div>
+            </div>
+        </div>
     </header>
 
     <main class="max-w-6xl mx-auto px-4 py-8 md:py-12">
@@ -103,22 +118,20 @@
 
         <template x-if="c">
             <div>
+                <!-- 社名・キャッチ（写真の上・2026-11-12〜 写真には重ねない） -->
+                <section id="titleBlock" class="mb-5 md:mb-7">
+                    <span class="inline-block bg-brand-orange text-white text-xs font-bold px-3 py-1 rounded-full mb-3 shadow-sm" x-text="c.category"></span>
+                    <h1 class="text-2xl md:text-4xl font-black text-gray-900 mb-2 tracking-tight leading-tight" data-fit-name="16" x-init="$nextTick(() => { fitName($el); document.fonts && document.fonts.ready.then(() => fitName($el)); })">
+                        <!-- 名前は空白の位置でだけ改行する（単語の途中で切らない） -->
+                        <template x-for="(w, i) in splitName(c.companyName).main.split(' ')" :key="i"><span><span class="inline-block max-w-full" x-text="w"></span><span x-show="i < splitName(c.companyName).main.split(' ').length - 1"> </span></span></template><span x-show="splitName(c.companyName).sub" data-fit-line class="block whitespace-nowrap overflow-hidden text-base md:text-2xl text-gray-600 mt-1" x-text="splitName(c.companyName).sub" x-init="$nextTick(() => { fitLine($el); document.fonts && document.fonts.ready.then(() => fitLine($el)); })"></span>
+                    </h1>
+                    <p class="text-base md:text-xl font-bold text-brand-teal" x-text="c.catchphrase"></p>
+                </section>
+
                 <!-- Hero Section -->
                 <section class="bg-white rounded-3xl shadow-md overflow-hidden mb-12">
                     <div class="h-72 md:h-[26rem] xl:h-[30rem] relative">
                         <img :src="c.hero || c.thumb" :alt="c.companyName" class="w-full h-full object-cover" :style="c.imgPos ? 'object-position:' + c.imgPos : ''">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-
-                        <!-- タイトル・キャッチコピー (左下)。スタッフ枠と被らないよう右側に余白 -->
-                        <div class="absolute bottom-0 left-0 w-full p-6 md:p-10 text-white pr-32 md:pr-56">
-                            <span class="inline-block bg-brand-orange text-white text-xs font-bold px-3 py-1 rounded-full mb-3 shadow-sm" x-text="c.category"></span>
-                            <h1 class="text-[22px] md:text-4xl font-black mb-2 tracking-tight drop-shadow-md leading-tight" data-fit-name="14" x-init="$nextTick(() => { fitName($el); document.fonts && document.fonts.ready.then(() => fitName($el)); })">
-                                <!-- 名前は空白の位置でだけ改行する（単語の途中で切らない） -->
-                                <template x-for="(w, i) in splitName(c.companyName).main.split(' ')" :key="i"><span><span class="inline-block max-w-full" x-text="w"></span><span x-show="i < splitName(c.companyName).main.split(' ').length - 1"> </span></span></template><span x-show="splitName(c.companyName).sub" data-fit-line class="block whitespace-nowrap overflow-hidden text-base md:text-2xl mt-1" x-text="splitName(c.companyName).sub" x-init="$nextTick(() => { fitLine($el); document.fonts && document.fonts.ready.then(() => fitLine($el)); })"></span>
-                            </h1>
-                            <p class="text-[13px] md:text-lg font-medium drop-shadow-md" x-text="c.catchphrase"></p>
-                        </div>
-
                         <!-- スタッフ紹介枠 (右下) -->
                         <div class="absolute bottom-4 right-4 md:bottom-8 md:right-8 flex flex-col items-center z-10">
                             <img :src="c.staffThumb" :alt="(c.role + ' ' + c.staffName).trim()" class="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-xl">
