@@ -106,7 +106,7 @@
                 <!-- Hero Section -->
                 <section class="bg-white rounded-3xl shadow-md overflow-hidden mb-12">
                     <div class="h-72 md:h-96 relative">
-                        <img :src="c.hero || c.thumb" :alt="c.companyName" class="w-full h-full object-cover">
+                        <img :src="c.hero || c.thumb" :alt="c.companyName" class="w-full h-full object-cover" :style="c.imgPos ? 'object-position:' + c.imgPos : ''">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
 
                         <!-- タイトル・キャッチコピー (左下)。スタッフ枠と被らないよう右側に余白 -->
