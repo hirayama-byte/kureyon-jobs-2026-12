@@ -24,3 +24,23 @@ window.fitLine = function (el) {
 window.addEventListener('resize', function () {
   document.querySelectorAll('[data-fit-line]').forEach(window.fitLine);
 });
+
+// 会社名（空白で区切った言葉ごと）を、言葉の途中で折り返さない大きさまで小さくする（2026-11-12）
+// 例: 「住宅型有料老人ホーム ナーシングホーム北斗」→ スマホでも「住宅型有料老人ホーム」「ナーシングホーム北斗」の2段に
+// h = 会社名の見出し（h1・h3）。min より小さくはしない（それでも入らなければ従来どおり言葉の途中で折り返す）
+window.fitName = function (h, min) {
+  if (!h) return;
+  var segs = Array.prototype.slice.call(h.querySelectorAll('span.inline-block'));
+  if (!segs.length) return;
+  min = min || Number(h.dataset.fitName) || 12;
+  h.style.fontSize = '';
+  segs.forEach(function (s) { s.style.whiteSpace = 'nowrap'; });
+  var size = parseFloat(getComputedStyle(h).fontSize);
+  var over = function () { return segs.some(function (s) { return s.scrollWidth > s.clientWidth + 0.5; }); };
+  while (over() && size > min) { size -= 0.5; h.style.fontSize = size + 'px'; }
+  if (over()) segs.forEach(function (s) { s.style.whiteSpace = ''; }); // 最小でも入らないときは折り返しを許す
+  h.querySelectorAll('[data-fit-line]').forEach(window.fitLine); // カッコの行も合わせ直す
+};
+window.addEventListener('resize', function () {
+  document.querySelectorAll('[data-fit-name]').forEach(function (h) { window.fitName(h); });
+});
