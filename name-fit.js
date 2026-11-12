@@ -28,17 +28,38 @@ window.addEventListener('resize', function () {
 // 会社名（空白で区切った言葉ごと）を、言葉の途中で折り返さない大きさまで小さくする（2026-11-12）
 // 例: 「住宅型有料老人ホーム ナーシングホーム北斗」→ スマホでも「住宅型有料老人ホーム」「ナーシングホーム北斗」の2段に
 // h = 会社名の見出し（h1・h3）。min より小さくはしない（それでも入らなければ従来どおり言葉の途中で折り返す）
+// 名前に「 」（改行しない空白）で結んだまとまり（例: 有料老人ホーム くるみの木稲沢）があるときは、
+// まずそのまとまりを1行に収める。最小の大きさでも入らなければ、大きさを戻してまとまりの中の言葉ごとに折り返す（スマホ）
 window.fitName = function (h, min) {
   if (!h) return;
+  h.querySelectorAll('[data-orig]').forEach(function (s) { s.textContent = s.dataset.orig; delete s.dataset.orig; }); // 前回の分け方を戻す（先に戻してから数える）
   var segs = Array.prototype.slice.call(h.querySelectorAll('span.inline-block'));
   if (!segs.length) return;
   min = min || Number(h.dataset.fitName) || 12;
-  h.style.fontSize = '';
-  segs.forEach(function (s) { s.style.whiteSpace = 'nowrap'; });
-  var size = parseFloat(getComputedStyle(h).fontSize);
-  var over = function () { return segs.some(function (s) { return s.scrollWidth > s.clientWidth + 0.5; }); };
-  while (over() && size > min) { size -= 0.5; h.style.fontSize = size + 'px'; }
-  if (over()) segs.forEach(function (s) { s.style.whiteSpace = ''; }); // 最小でも入らないときは折り返しを許す
+  function shrink(units) {
+    h.style.fontSize = '';
+    units.forEach(function (s) { s.style.whiteSpace = 'nowrap'; });
+    var size = parseFloat(getComputedStyle(h).fontSize);
+    var over = function () { return units.some(function (s) { return s.scrollWidth > s.clientWidth + 0.5; }); };
+    while (over() && size > min) { size -= 0.5; h.style.fontSize = size + 'px'; }
+    return !over();
+  }
+  var ok = shrink(segs);
+  if (!ok && segs.some(function (s) { return s.textContent.indexOf(' ') >= 0; })) {
+    // まとまりを言葉に分けて、言葉の途中で折り返さないように合わせ直す
+    var words = [];
+    segs.forEach(function (s) {
+      if (s.textContent.indexOf(' ') < 0) { words.push(s); return; }
+      s.dataset.orig = s.textContent; s.style.whiteSpace = '';
+      var parts = s.dataset.orig.split(' ');
+      s.textContent = '';
+      parts.forEach(function (w, i) { var sp = document.createElement('span'); sp.className = 'inline-block max-w-full'; sp.textContent = w; s.appendChild(sp); if (i < parts.length - 1) s.appendChild(document.createTextNode(' ')); words.push(sp); });
+    });
+    segs.forEach(function (s) { if (s.dataset.orig != null) s.style.whiteSpace = 'normal'; });
+    ok = shrink(words);
+    segs.forEach(function (s) { if (s.dataset.orig != null) s.style.whiteSpace = 'normal'; });
+    if (!ok) words.forEach(function (s) { s.style.whiteSpace = ''; });
+  } else if (!ok) segs.forEach(function (s) { s.style.whiteSpace = ''; }); // 最小でも入らないときは折り返しを許す
   h.querySelectorAll('[data-fit-line]').forEach(window.fitLine); // カッコの行も合わせ直す
 };
 window.addEventListener('resize', function () {
