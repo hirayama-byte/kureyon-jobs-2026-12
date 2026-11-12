@@ -156,8 +156,8 @@ window.COMPANIES = [
     real: true, // 本番の掲載企業（サンプル表示を出さない）
     category: '介護・福祉',
     companyName: 'にこやかライフハウス （一宮開明 / 一宮猿海道 / 一宮三条）',
-    thumb: 'https://images.unsplash.com/photo-1769506551162-f56c343f0642?auto=format&fit=crop&q=80&w=800', // 仮の写真（先方の写真が届いたら差し替える）
-    staffThumb: 'https://images.unsplash.com/photo-1728507523243-625ed7c61308?auto=format&fit=facearea&facepad=3.5&w=256&h=256&q=80', // 仮の写真
+    thumb: 'images/nikoyaka-main.jpg', // 先方支給のパース（2026-11-12）
+    staffThumb: 'images/nikoyaka-staff.jpg', // 吉田さん（先方支給 IMG_0830 を顔まわりで正方形に）
     role: '在宅介護管理責任者',
     staffName: '吉田　将人',
     catchphrase: '利用者様の「いきがい」を支え、スタッフも笑顔で働ける介護住宅',
