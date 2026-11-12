@@ -82,8 +82,8 @@
                                 </h3>
                             </div>
 
-                            <!-- Bottom Right: Staff Photo -->
-                            <div class="absolute bottom-3 right-4 flex flex-col items-center z-10 group-hover:scale-105 transition-transform duration-300">
+                            <!-- Bottom Right: Staff Photo（人物写真が無い会社は出さない） -->
+                            <div x-show="company.staffThumb" class="absolute bottom-3 right-4 flex flex-col items-center z-10 group-hover:scale-105 transition-transform duration-300">
                                 <img :src="company.staffThumb" :alt="(company.role + ' ' + company.staffName).trim()" loading="lazy" class="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-4 border-white shadow-lg">
                                 <!-- 肩書が長いとき（6文字以上）は肩書と名前を2段にして、会社名に被らないようにする -->
                                 <div class="bg-white py-1 shadow-md flex -mt-3 border border-gray-100 relative z-20"
