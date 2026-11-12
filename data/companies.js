@@ -16,6 +16,7 @@
 //   applyUrl    … 応募先URL（WEB応募ボタンとQRコードの両方に使う。空ならボタンとQRを出さない）
 //   qrImage     … 先方支給のQR画像（省略時は applyUrl からQRを自動で作る）
 //   noQr        … true ならQRを出さない（応募ボタン・電話だけ）
+//   qrUrl       … QRに入れるURL（QR管理サイトのQRなど。省略時は applyUrl）。ボタンは applyUrl へ直接
 //   tel / telNote … WEB応募ボタンの下に出す電話番号と補足（例: 担当：小川）
 //   real        … true なら本番の掲載企業（詳細ページのサンプル表示を出さない）
 
@@ -179,7 +180,8 @@ window.COMPANIES = [
       ['休日・休暇', '週休2日、夏季・冬季休暇あり（合計6日間）'],
       ['応募資格', '① 介護福祉士（必須）\n② 介護福祉士（または受験予定）\n③ 初任者研修以上\n④・⑤ 無資格OK\n※①〜⑤すべて高卒以上']
     ],
-    applyUrl: '' // 応募先URL・電話番号は未着（空なら「応募方法は近日公開予定です。」と出る）
+    applyUrl: 'https://www.nikoyakalife.info/recruit/',
+    qrUrl: 'https://www.k-create.co.jp/qr/68knx8' // QR管理「2612一宮版＿にこやかライフハウス＿求人QR」（F000080・読み取りを数える → 求人ページへ）
   },
   {
     id: 6,

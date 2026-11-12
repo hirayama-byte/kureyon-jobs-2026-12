@@ -61,7 +61,7 @@
                     // 先方支給のQR画像があればそれを使い、無ければ応募先URLから作る
                     if (!c.applyUrl || c.qrImage || c.noQr) return;
                     this.$nextTick(() => {
-                        new QRCode(this.$refs.qr, { text: c.applyUrl, width: 128, height: 128, correctLevel: QRCode.CorrectLevel.M });
+                        new QRCode(this.$refs.qr, { text: c.qrUrl || c.applyUrl, width: 128, height: 128, correctLevel: QRCode.CorrectLevel.M }); // qrUrl があればそれ（QR管理の計測用URL）
                     });
                 }
             };
