@@ -87,8 +87,7 @@ window.COMPANIES = [
       ['休日・休暇', 'シフト制（年間休日等は規定に準ずる）'],
       ['応募資格', '未経験歓迎、資格不問\n※初任者研修の費用補助あり']
     ],
-    applyUrl: 'https://nikkenhomes.co.jp/chumon/recruit/',
-    qrImage: 'images/ajisai-qr.png', // 先方支給のQR
+    applyUrl: 'https://hirayama-byte.github.io/kcreate-setsumeikai/',
     tel: '080-9276-7943',
     telNote: '担当：小川'
   },
